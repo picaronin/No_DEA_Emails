@@ -1,12 +1,12 @@
 # [3.2][RC] No DEA Emails
 This extension prevents the registration of a user in the forum when using a disposable or temporary email account (DEA).
 Such as:
-    Mailinator
-    Spamgourmet
-    TrashMail
-    Burnr
-    HMail
-    Temp Mail
+   - Mailinator
+   - Spamgourmet
+   - TrashMail
+   - Burnr
+   - HMail
+   - Temp Mail
     
 #### No DEA Emails Extension is based in https://github.com/wesbos/burner-email-providers
 
