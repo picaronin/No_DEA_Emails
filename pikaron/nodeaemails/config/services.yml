@@ -1,0 +1,7 @@
+services:
+    pikaron.nodeaemails.listener:
+        class: pikaron\nodeaemails\event\listener
+        arguments:
+            - '@language'
+        tags:
+            - { name: event.listener }
