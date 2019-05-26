@@ -1,3 +1,4 @@
+[![phpBB](https://www.phpbb.com/theme/images/logos/blue/160x52.png)](http://www.phpbb.com)
 # [3.2][RC] No DEA Emails
 This extension prevents the registration of a user in the phpBB forum when using a disposable or temporary email account (DEA).
 
