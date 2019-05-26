@@ -12,6 +12,10 @@ Such as:
     
 #### No DEA Emails Extension is based in https://github.com/wesbos/burner-email-providers
 
+## Requirements
+* phpBB >= 3.2.4
+* PHP >= 5.4
+
 ## Install
 1. Download the latest release.
 2. In the `ext` directory of your phpBB board, copy the `pikaron/nodeaemails` folder. It must be so: `/ext/pikaron/nodeaemails`
