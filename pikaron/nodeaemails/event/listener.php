@@ -80,20 +80,48 @@ class listener implements EventSubscriberInterface
 		// Store the error and input event data
 		$error = $event['error'];
 		$email = $event['data'];
+		$url = 'https://api.disposable-email-detector.com/api/dea/v1/check/' . $email['email'];
 
-		// If there is no response, the extension not work = Disabled.
-		if ($check_email = @file_get_contents('https://api.disposable-email-detector.com/api/dea/v1/check/' . $email['email']))
+		if (ini_get('allow_url_fopen'))
 		{
-			$dataemail = json_decode($check_email, true);
-
-			if (isset($dataemail['result']['isDisposable']) && $dataemail['result']['isDisposable'] == '1')
+			// If there is no response, the extension not work = Disabled.
+			if ($check_email = @file_get_contents($url))
 			{
-				$error[] = $this->language->lang('NO_DEA_EMAILS_FOUND', $email['email']);
+				$dataemail = json_decode($check_email, true);
+
+				if (isset($dataemail['result']['isDisposable']) && $dataemail['result']['isDisposable'] == '1')
+				{
+					$error[] = $this->language->lang('NO_DEA_EMAILS_FOUND', $email['email']);
+				}
+			}
+		}
+		else
+		{
+			// If 'curl' not enabled, the extension not work = Disabled.
+			if (extension_loaded('curl'))
+			{
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_HEADER, 0);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+				curl_setopt($ch, CURLOPT_URL, $url);
+				curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+				$check_email = curl_exec($ch);
+				curl_close($ch);
+
+				// If there is no response, the extension not work = Disabled.
+				if ($check_email)
+				{
+					$dataemail = json_decode($check_email, true);
+
+					if (isset($dataemail['result']['isDisposable']) && $dataemail['result']['isDisposable'] == '1')
+					{
+						$error[] = $this->language->lang('NO_DEA_EMAILS_FOUND', $email['email']);
+					}
+				}
 			}
 		}
 
 		// Update error event data
 		$event['error'] = $error;
 	}
-
 }
