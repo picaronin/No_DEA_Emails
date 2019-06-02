@@ -15,6 +15,7 @@ Such as:
 ## Requirements
 * phpBB >= 3.2.4
 * PHP >= 5.4
+* `allow_url_fopen = On` or extension 'curl' loaded.
 
 ## Install
 1. Download the latest release.
