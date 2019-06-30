@@ -1,5 +1,5 @@
 [![phpBB](https://www.phpbb.com/theme/images/logos/blue/160x52.png)](http://www.phpbb.com)
-# [3.2][RC] No DEA Emails 1.0.0-rc3
+# [3.2][RC] No DEA Emails 1.0.0-RC5
 This extension prevents the registration of a user in the phpBB forum when using a disposable or temporary email account (DEA).
 
 Such as:
@@ -14,8 +14,8 @@ Such as:
 
 ## Requirements
 * phpBB >= 3.2.4
-* PHP >= 5.4
-* `allow_url_fopen = On` or extension cURL of PHP loaded.
+* PHP >= 5.6
+* Extension cURL of PHP loaded.
 
 ## Install
 1. Download the latest release.
