@@ -6,7 +6,7 @@
 4. Navigate in the ACP to `Customise -> Manage extensions`.
 5. Look for `No DEA Emails` under the Disabled Extensions list, and click its `Enable` link.
 
-## Uninstall
+## Uninstall.
 1. Navigate in the ACP to `Customise -> Extension Management -> Extensions`.
 2. Look for `No DEA Emails` under the Enabled Extensions list, and click its `Disable` link.
 3. To permanently uninstall, click `Delete Data` and then delete the `/ext/pikaron/nodeaemails` folder.
