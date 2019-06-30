@@ -34,7 +34,7 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
 $lang = array_merge($lang, array(
-		'NO_DEA_EMAILS_INSTALL_ERROR'		=> '“No DEA Emails” can not be installed.<br><br>- PhpBB 3.2.4 or later is required.',
-		'NO_DEA_EMAILS_NO_CURL'				=> '“No DEA Emails” can not be installed.<br><br>- Is required extension “curl” of PHP loaded.',
-		'NO_DEA_EMAILS_FOUND'				=> 'ERROR: The ((%s)) Email DOMAIN is not valid.<br>Our website does NOT support disposable or temporary email accounts <a href="https://bit.ly/2LBsbqe" target="_blank">(DEA)</a>.<br>If you wish to continue registering on our website, you must use a non-disposable email account.',    
+		'NO_DEA_EMAILS_INSTALL_ERROR'		=> '“No DEA Emails” kann nicht installiert werden.<br><br>- phpBB 3.2.4 oder höher wird benötigt.',
+		'NO_DEA_EMAILS_NO_CURL'				=> '“No DEA Emails” kann nicht installiert werden.<br><br>- Die PHP-Erweiterung “curl” müssen aktiviert sein.',
+		'NO_DEA_EMAILS_FOUND'				=> 'FEHLER: Die E-Mail-Adresse ((%s)) ist nicht gültig.<br>Unsere Website unterstützt keine temporären, Einweg- oder Wegwerf-E-Mail-Adressen (<a href="https://de.wikipedia.org/wiki/E-Mail-Konto#Alias-Adressen_und_Wegwerf-E-Mail-Adressen" target="_blank">DEA</a>).<br>Wenn du unsere Seite nutzen möchtest, musst du eine dauerhaft zur Verfügung stehende E-Mail-Adresse angeben.',
 ));

@@ -34,7 +34,7 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
 $lang = array_merge($lang, array(
-		'NO_DEA_EMAILS_INSTALL_ERROR'		=> '“No DEA Emails” no se puede instalar.<br /><br />- Se requiere phpBB 3.2.4 o posterior.',
-		'NO_DEA_EMAILS_NO_CURL'				=> '“No DEA Emails” no se puede instalar.<br /><br />- Se requiere “allow_url_fopen = On” o la extension “curl“ de PHP habilitada.',
+		'NO_DEA_EMAILS_INSTALL_ERROR'		=> '“No DEA Emails” no se puede instalar.<br><br>- Se requiere phpBB 3.2.4 o posterior.',
+		'NO_DEA_EMAILS_NO_CURL'				=> '“No DEA Emails” no se puede instalar.<br><br>- Se requiere la extension “curl“ de PHP habilitada.',
 		'NO_DEA_EMAILS_FOUND'				=> 'ERROR: El DOMINIO del Email ((%s)) no es válido.<br />Nuestro sitio Web NO admite cuentas de correo electrónico desechables o temporales <a href="https://bit.ly/2W2MrVO" target="_blank">(DED)</a>.<br />Si desea continuar con el registro en nuestra web, debe de utilizar una cuenta de correo electrónico NO desechable.',
 ));

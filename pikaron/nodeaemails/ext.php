@@ -1,12 +1,12 @@
 <?php
-
 /**
-*
-* @package phpBB Extension - No DEA Emails
-* @copyright (c) 2019 Picaron
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ *
+ * No DEA Emails. An extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2019, Picaron, https://github.com/picaronin/
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 
 namespace pikaron\nodeaemails;
 
@@ -39,8 +39,8 @@ class ext extends \phpbb\extension\base
 			@trigger_error($lang->lang('NO_DEA_EMAILS_INSTALL_ERROR'), E_USER_WARNING);
 		}
 
-		// Display a custom warning message if not 'allow_url_fopen' and not extension 'curl' loaded.
-		if (!ini_get('allow_url_fopen') && !extension_loaded('curl'))
+		// Display a custom warning message if not extension 'curl' loaded.
+		if (!extension_loaded('curl'))
 		{
 			// Suppress the error in case of CLI usage
 			@trigger_error($lang->lang('NO_DEA_EMAILS_NO_CURL'), E_USER_WARNING);

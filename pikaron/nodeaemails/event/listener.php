@@ -1,9 +1,9 @@
 <?php
 /**
  *
- * No DEA Emails extension for the phpBB Forum Software package.
+ * No DEA Emails. An extension for the phpBB Forum Software package.
  *
- * @copyright (c) 2019 Picaron
+ * @copyright (c) 2019, Picaron, https://github.com/picaronin/
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
@@ -17,22 +17,40 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class listener implements EventSubscriberInterface
 {
+	// /** @var functions */
+	protected $functions_nodeaemails;
+
 	/** @var \phpbb\language\language */
 	protected $language;
+
+	/** @var \phpbb\config\config */
+	protected $config;
+
+	/** @var \phpbb\request\request */
+	protected $request;
 
 	/**
 	 * Listener constructor.
 	 *
-	* @param \phpbb\language\language			$language
+	 * @param \pikaron\nodeaemails\core\functions_nodeaemails	 $functions_nodeaemails
+	 * @param \phpbb\language\language							 $language
+	 * @param \phpbb\config\config								 $config
+	 * @param \phpbb\request\request							 $request
 	 *
 	 * @return void
 	 */
 	public function __construct
 	(
-		\phpbb\language\language $language
+		\pikaron\nodeaemails\core\functions_nodeaemails $functions_nodeaemails,
+		\phpbb\language\language $language,
+		\phpbb\config\config $config,
+		\phpbb\request\request $request
 	)
 	{
-		$this->language				= $language;
+		$this->functions_nodeaemails = $functions_nodeaemails;
+		$this->language				 = $language;
+		$this->config				 = $config;
+		$this->request				 = $request;
 	}
 
 	/**
@@ -48,6 +66,7 @@ class listener implements EventSubscriberInterface
 			'core.user_setup'						=> 'user_setup',
 			'core.ucp_register_data_after'			=> 'ucp_user_email_data',
 			'core.ucp_profile_reg_details_validate'	=> 'ucp_user_email_data',
+			'core.message_list_actions'				=> 'message_list_actions',
 		);
 	}
 
@@ -66,6 +85,35 @@ class listener implements EventSubscriberInterface
 			'lang_set'	=> 'nodeaemails'
 		];
 		$event['lang_set_ext'] = $lang_set_ext;
+
+		// Force load DEA Emails
+		if ($this->config['nodeaemails_counter'] == 0)
+		{
+			$this->functions_nodeaemails->update_deas();
+		}
+	}
+
+	/**
+	 * Send PM to selected Users.
+	 *
+	 * @param object $event
+	 *
+	 * @return void
+	 */
+	public function message_list_actions($event)
+	{
+		$users = $this->request->variable('users_nodeaemail', '');
+
+		if ($users != '')
+		{
+			$row = explode('_', $users);
+			$sendpm = array();
+			foreach ($row as $key => $id)
+			{
+				$sendpm['u'][$id] ='bcc';
+			}
+			$event['address_list'] = $sendpm;
+		}
 	}
 
 	/**
@@ -79,45 +127,18 @@ class listener implements EventSubscriberInterface
 	{
 		// Store the error and input event data
 		$error = $event['error'];
-		$email = $event['data'];
-		$url = 'https://api.disposable-email-detector.com/api/dea/v1/check/' . $email['email'];
+		$alldata = $event['data'];
+		$email = strtolower($alldata['email']);
 
-		if (ini_get('allow_url_fopen'))
+		// make sure we've got a valid email
+		if (filter_var($email, FILTER_VALIDATE_EMAIL))
 		{
-			// If there is no response, the extension not work = Disabled.
-			if ($check_email = @file_get_contents($url))
+			// split on @ and return last value of array in $domain[1]
+			$domain = explode('@', $email);
+
+			if (array_search($domain[1], $this->functions_nodeaemails->load_total_deas()) !== false)
 			{
-				$dataemail = json_decode($check_email, true);
-
-				if (isset($dataemail['result']['isDisposable']) && $dataemail['result']['isDisposable'] == '1')
-				{
-					$error[] = $this->language->lang('NO_DEA_EMAILS_FOUND', $email['email']);
-				}
-			}
-		}
-		else
-		{
-			// If 'curl' not enabled, the extension not work = Disabled.
-			if (extension_loaded('curl'))
-			{
-				$ch = curl_init();
-				curl_setopt($ch, CURLOPT_HEADER, 0);
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-				curl_setopt($ch, CURLOPT_URL, $url);
-				curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-				$check_email = curl_exec($ch);
-				curl_close($ch);
-
-				// If there is no response, the extension not work = Disabled.
-				if ($check_email)
-				{
-					$dataemail = json_decode($check_email, true);
-
-					if (isset($dataemail['result']['isDisposable']) && $dataemail['result']['isDisposable'] == '1')
-					{
-						$error[] = $this->language->lang('NO_DEA_EMAILS_FOUND', $email['email']);
-					}
-				}
+				$error[] = $this->language->lang('NO_DEA_EMAILS_FOUND', $email);
 			}
 		}
 
