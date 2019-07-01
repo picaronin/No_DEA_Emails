@@ -17,7 +17,6 @@ services:
         arguments:
             - '@config'        
             - '@dbal.conn'
-            - '@language'
             - '%pikaron.nodeaemails.table.nodeaemails%'
 
     pikaron.nodeaemails.cron.task.nodeaemails_cron:

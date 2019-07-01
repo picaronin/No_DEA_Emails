@@ -20,9 +20,6 @@ class functions_nodeaemails
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \phpbb\language\language */
-	protected $language;
-
 	/**
 	* The database table
 	* @var string
@@ -34,7 +31,6 @@ class functions_nodeaemails
 	*
 	* @param \phpbb\config\config				$config
 	* @param \phpbb\db\driver\driver_interface	$db
-	* @param \phpbb\language\language			$language
 	* @param string								$nodeaemails_table
 	*
 	*/
@@ -42,13 +38,11 @@ class functions_nodeaemails
 	(
 		\phpbb\config\config $config,
 		\phpbb\db\driver\driver_interface $db,
-		\phpbb\language\language $language,
 		$nodeaemails_table
 	)
 	{
 		$this->config				= $config;
 		$this->db					= $db;
-		$this->language				= $language;
 		$this->nodeaemails_table	= $nodeaemails_table;
 	}
 
@@ -73,7 +67,7 @@ class functions_nodeaemails
 		$result = curl_exec($ch);
 		curl_close($ch);
 		$pos = strpos($result, '404: Not Found');
-		$data = ($pos === false) ? $result : 'An error occurred while loading the data from burner-email-providers.';
+		$data = ($pos === false) ? $result : ':::::CRON MESSAGE::::: An error occurred while loading the data from burner-email-providers.';
 
 		if ($data != '')
 		{

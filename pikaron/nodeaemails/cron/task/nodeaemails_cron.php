@@ -11,21 +11,21 @@
 namespace pikaron\nodeaemails\cron\task;
 
 class nodeaemails_cron extends \phpbb\cron\task\base
-{    
+{
 	// /** @var functions */
 	protected $functions_nodeaemails;
 
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\config\config                               $config
-     * @param \pikaron\nodeaemails\core\functions_nodeaemails    $functions_nodeaemails
+	 * @param \phpbb\config\config								 $config
+	 * @param \pikaron\nodeaemails\core\functions_nodeaemails	 $functions_nodeaemails
 	 */
-	public function __construct(  
+	public function __construct(
 		\pikaron\nodeaemails\core\functions_nodeaemails $functions_nodeaemails
-    )
+	)
 	{
-		$this->functions_nodeaemails = $functions_nodeaemails;     
+		$this->functions_nodeaemails = $functions_nodeaemails;
 	}
 
 	/**
@@ -34,8 +34,8 @@ class nodeaemails_cron extends \phpbb\cron\task\base
 	 * @return void
 	 */
 	public function run()
-	{       
-		$this->functions_nodeaemails->update_deas();      
+	{
+		$this->functions_nodeaemails->update_deas();
 	}
 
 	/**
@@ -59,6 +59,6 @@ class nodeaemails_cron extends \phpbb\cron\task\base
 	 */
 	public function should_run()
 	{
-        return $this->functions_nodeaemails->canrun_cron();
+		return $this->functions_nodeaemails->canrun_cron();
 	}
 }

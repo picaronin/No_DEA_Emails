@@ -46,7 +46,7 @@ $lang = array_merge($lang, array(
 		'LOG_CONFIG_CONFIGURATION'			=> '<strong>Configuracion Actualizada Extensión “No DEA Emails”</strong>',
 		'LOG_CONFIG_USERS'					=> '<strong>Usuarios ELIMINADOS desde “No DEA Emails”</strong>',
 		'L_NO_DEA_EMAILS_DELAY'				=> 'Intervalo para ejecución del CRON',
-		'L_NO_DEA_EMAILS_DELAY_EXPLAIN'		=> '(Mínimo: 15 Segundos , Máximo: 86400 Segundos = 1 Día)',
+		'L_NO_DEA_EMAILS_DELAY_EXPLAIN'		=> '(Mínimo: 300 Segundos , Máximo: 86400 Segundos = 1 Día)',
 		'L_DEA_DELAY'						=> 'Segundos',
 		'L_DEA_DELAY_MIN'					=> 'Minutos',
 		'L_NO_DEA_EMAILS_VERSION'			=> 'Versión de Extensión: ',

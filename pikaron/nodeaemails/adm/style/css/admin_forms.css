@@ -494,24 +494,24 @@ No DEA Emails
 Success Box
 --------- */
 .successboxdea {
-    border: 1px solid #999999;
-    box-shadow: 0 0 4px #000000;
-    -o-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
+	border: 1px solid #999999;
+	box-shadow: 0 0 4px #000000;
+	-o-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
 }
 
 /* ------------
 No DEA Emails
 ------------ */
 .death {
-    width: 8%;
+	width: 8%;
 }
 
 .deatd {
-    float: right;
+	float: right;
 }
 
 .deatdri {
-    text-align: right;
+	text-align: right;
 }

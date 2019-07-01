@@ -72,7 +72,7 @@ class acp_nodeaemails_module
 		$display_vars = array(
 			'vars'	=> array(
 				'legend'					=> 'GENERAL_OPTIONS',
-				'nodeaemails_cron_gc'		=> array('lang' => 'L_NO_DEA_EMAILS_DELAY', 'validate' => 'int:15:86400', 'type' => 'number:15:86400', 'explain' => true, 'append' => ' ' . $this->language->lang('L_DEA_DELAY')),
+				'nodeaemails_cron_gc'		=> array('lang' => 'L_NO_DEA_EMAILS_DELAY', 'validate' => 'int:15:86400', 'type' => 'number:300:86400', 'explain' => true, 'append' => ' ' . $this->language->lang('L_DEA_DELAY')),
 			)
 		);
 
@@ -283,92 +283,92 @@ class acp_nodeaemails_module
 		/// Delete Users
 		$continue = $this->request->is_set_post('continue');
 		$submit = $this->request->is_set_post('submit');
-		$delete_type = $this->request->variable('delete_type', '');        
+		$delete_type = $this->request->variable('delete_type', '');
 		$delete_users = (isset($_REQUEST['delete'])) ? $this->request->variable('delete', array(0)) : array();
 
 		$form_key = 'acp_dea_users';
 		add_form_key($form_key);
 
-		if ($submit)            
+		if ($submit)
 		{
 			if (!$continue && !check_form_key($form_key))
 			{
 				trigger_error($this->language->lang('FORM_INVALID') . adm_back_link($this->u_action), E_USER_WARNING);
 			}
 
-            // No useres select
+			// No useres select
 			if (!count($delete_users))
 			{
 				trigger_error($this->language->lang('L_NO_DEA_EMAILS_NO_USERS') . adm_back_link($this->u_action), E_USER_WARNING);
 			}
-            
-            // Need select one option
+
+			// Need select one option
 			if ($delete_type == '')
 			{
 				trigger_error($this->language->lang('L_NO_DEA_EMAILS_NEED_ACTION') . adm_back_link($this->u_action), E_USER_WARNING);
 			}
 
-			$sql = 'SELECT * 
+			$sql = 'SELECT *
 				FROM ' . USERS_TABLE . '
 				WHERE ' . $this->db->sql_in_set('user_id', $delete_users);
 			$result = $this->db->sql_query($sql);
 
 			$user_affected = array();
-            $users = null;
+			$users = null;
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-                // Founders can not be deleted.
-                if ($row['user_type'] == USER_FOUNDER)
-                {
-                    trigger_error($this->language->lang('L_NO_DEA_EMAILS_CANNOT_FOUNDER', $row['username']) . adm_back_link($this->u_action), E_USER_WARNING);
-                }
-                
-                // Check if the user wants to remove himself
-                if ($row['user_id'] == $this->user->data['user_id'])
-                {
-                    trigger_error($this->language->lang('L_NO_DEA_EMAILS_CANNOT_YOURSELF') . adm_back_link($this->u_action), E_USER_WARNING);
-                }                
+				// Founders can not be deleted.
+				if ($row['user_type'] == USER_FOUNDER)
+				{
+					trigger_error($this->language->lang('L_NO_DEA_EMAILS_CANNOT_FOUNDER', $row['username']) . adm_back_link($this->u_action), E_USER_WARNING);
+				}
+
+				// Check if the user wants to remove himself
+				if ($row['user_id'] == $this->user->data['user_id'])
+				{
+					trigger_error($this->language->lang('L_NO_DEA_EMAILS_CANNOT_YOURSELF') . adm_back_link($this->u_action), E_USER_WARNING);
+				}
 
 				$user_affected[$row['user_id']] = $row['username'];
-                
-                //Add user to send PM
-                $users .= $row['user_id'] . '_';
+
+				//Add user to send PM
+				$users .= $row['user_id'] . '_';
 			}
 			$this->db->sql_freeresult($result);
 
 			if (confirm_box(true))
 			{
-                if ($delete_type == 'sendpm')
-                {
-                    redirect(append_sid($this->phpbb_root_path . "ucp." . $this->php_ext, 'i=ucp_pm&amp;mode=compose&amp;users_nodeaemail=' . substr($users, 0, -1)));
-                }
-                else
-                {                
-                    if (!$this->auth->acl_get('a_userdel'))
-                    {
-                        send_status_line(403, 'Forbidden');
-                        trigger_error($this->language->lang('NO_AUTH_OPERATION') . adm_back_link($this->u_action), E_USER_WARNING);
-                    }
+				if ($delete_type == 'sendpm')
+				{
+					redirect(append_sid($this->phpbb_root_path . "ucp." . $this->php_ext, 'i=ucp_pm&amp;mode=compose&amp;users_nodeaemail=' . substr($users, 0, -1)));
+				}
+				else
+				{
+					if (!$this->auth->acl_get('a_userdel'))
+					{
+						send_status_line(403, 'Forbidden');
+						trigger_error($this->language->lang('NO_AUTH_OPERATION') . adm_back_link($this->u_action), E_USER_WARNING);
+					}
 
-                    if (!function_exists('user_active_flip'))
-                    {
-                        include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
-                    }
+					if (!function_exists('user_active_flip'))
+					{
+						include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
+					}
 
-                    user_delete($delete_type, $delete_users, false);
+					user_delete($delete_type, $delete_users, false);
 
-                    $this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_INACTIVE_DELETE', false, array('<strong>' . $this->language->lang('LOG_CONFIG_USERS') . '</strong><br>» ' . implode($this->language->lang('COMMA_SEPARATOR'), $user_affected)));
-                    trigger_error($this->language->lang('LOG_CONFIG_USERS') . '<br><br>' . implode($this->language->lang('COMMA_SEPARATOR'), $user_affected) . ' ' . adm_back_link($this->u_action));
-                }
+					$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_INACTIVE_DELETE', false, array('<strong>' . $this->language->lang('LOG_CONFIG_USERS') . '</strong><br>» ' . implode($this->language->lang('COMMA_SEPARATOR'), $user_affected)));
+					trigger_error($this->language->lang('LOG_CONFIG_USERS') . '<br><br>' . implode($this->language->lang('COMMA_SEPARATOR'), $user_affected) . ' ' . adm_back_link($this->u_action));
+				}
 			}
 			else
 			{
 				$s_hidden_fields = array(
-					'continue'	    => 1,
-					'mode'		    => $mode,
-					'delete'	    => $delete_users,
-                    'delete_type'	=> $delete_type,
-					'submit'	    => 1,
+					'continue'		=> 1,
+					'mode'			=> $mode,
+					'delete'		=> $delete_users,
+					'delete_type'	=> $delete_type,
+					'submit'		=> 1,
 				);
 				confirm_box(false, $this->language->lang('CONFIRM_OPERATION'), build_hidden_fields($s_hidden_fields));
 			}

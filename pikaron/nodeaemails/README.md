@@ -1,4 +1,21 @@
-# No DEA Emails Extension is based in https://github.com/wesbos/burner-email-providers
+[![phpBB](https://www.phpbb-es.com/foro/styles/flat-style/theme/images/logo_new_small.png)](https://www.phpbb-es.com/foro/viewtopic.php?f=147&t=43035&p=243137#p243137)
+# [3.2] No DEA Emails 1.0.0
+This extension prevents the registration of a user in the phpBB forum when using a disposable or temporary email account (DEA).
+
+Such as:
+   - Mailinator
+   - Spamgourmet
+   - TrashMail
+   - Burnr
+   - HMail
+   - Temp Mail
+
+#### No DEA Emails Extension is based in https://github.com/wesbos/burner-email-providers
+
+## Requirements
+* phpBB >= 3.2.4
+* PHP >= 5.6
+* Extension cURL of PHP loaded.
 
 ## Install
 1. Download the latest release.
