@@ -1,5 +1,5 @@
 [![phpBB](https://www.phpbb-es.com/foro/styles/flat-style/theme/images/logo_new_small.png)](https://www.phpbb-es.com/foro/viewtopic.php?f=147&t=43035&p=243137#p243137)
-# [3.2] No DEA Emails 1.2.0
+# [3.2][Ext][1.2.0] No DEA Emails
 This extension prevents the registration of a user in the phpBB forum when using a disposable or temporary email account (DEA).
 
 Such as:
